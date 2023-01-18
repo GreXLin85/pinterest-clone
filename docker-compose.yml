@@ -23,9 +23,9 @@ services:
     ports:
       - "4000:4000"
     restart: always
-    environment:
-      DATABASE_URL: "postgres://postgres:postgres@postgres:5432/cineaidb"
-  
+    env_file:
+      - ./server/.env
+
   pinclient:
     build:
       context: .
@@ -37,6 +37,8 @@ services:
     ports:
       - "3000:3000"
     restart: always
+    env_file:
+      - ./client/.env
 volumes:
   postgres-data:
   pgadmin-data:
