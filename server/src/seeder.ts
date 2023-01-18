@@ -43,7 +43,6 @@ async function main() {
     });
 
     console.log('Seeding done');
-
-
-
 }
+
+main()
