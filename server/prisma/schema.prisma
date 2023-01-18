@@ -11,12 +11,12 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  password String
-  Role     Role   @relation(fields: [roleId], references: [id])
-  roleId   Int
-  Post     Post[]
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  Role      Role     @relation(fields: [roleId], references: [id])
+  roleId    Int
+  Post      Post[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
