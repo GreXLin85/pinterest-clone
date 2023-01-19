@@ -1,0 +1,26 @@
+{
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "migrate": "prisma migrate dev --name init",
+    "migrate:reset": "prisma migrate reset",
+    "docker:compose:up": "docker-compose up -d --build",
+    "docker:compose:down": "docker-compose down",
+    "docker:compose:logs": "docker-compose logs -f",
+    "docker:compose:ps": "docker-compose ps"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.9.0",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/node": "^18.11.18",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "prisma": "^4.9.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  }
+}
