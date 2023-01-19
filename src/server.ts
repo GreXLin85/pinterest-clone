@@ -1,14 +1,16 @@
 import express from 'express';
 import { json } from 'body-parser';
 import cors from 'cors';
+import RouteLoader from './helpers/RouteLoader';
+import Auth from './modules/auth';
 const app = express();
 
 app.use(json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-    res.send("Hello World!");
-});
+RouteLoader(app, [
+  Auth
+])
 
 const SERVER_PORT = Number(process.env.PORT) || 4000;
 
