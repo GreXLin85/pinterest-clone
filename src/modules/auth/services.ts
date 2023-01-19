@@ -1,8 +1,6 @@
 import prisma from "../../interfaces/Prisma";
 import { UserService } from "../user/services";
 export class AuthService {
-
-
     static login = async (username: string, password: string) => {
         if (!username || !password) {
             throw new Error("Username or password is empty");

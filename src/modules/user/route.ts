@@ -3,7 +3,6 @@ import { UserController } from './controller';
 
 export class UserRoute {
     public routes(app: Application): void {
-
         app.route('/user/:id')
             .get(new UserController().getUser);
 
