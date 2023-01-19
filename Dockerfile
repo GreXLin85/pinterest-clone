@@ -23,4 +23,4 @@ RUN npx prisma generate
 EXPOSE 4000
 
 # A command to start the server
-CMD [ "yarn", "run", "docker:start" ]
+CMD [ "yarn", "run", "start" ]
