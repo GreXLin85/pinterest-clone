@@ -22,6 +22,9 @@ export class AuthController {
             const token = sign(user.id);
             return MessageHelper({ token }, false, res);
         } catch (error: any) {
+            if (error.message.includes("Unique constraint failed")) {
+                return MessageHelper("User already exists", true, res);
+            }
             return MessageHelper(error.message, true, res);
         }
     }
