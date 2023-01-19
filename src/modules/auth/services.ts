@@ -6,15 +6,18 @@ export class AuthService {
             throw new Error("Username or password is empty");
         }
 
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findUnique({
             where: {
-                username: username,
-                password: password
+                username: username
             }
         })
 
         if (!user) {
             throw new Error("User not found");
+        }
+
+        if (user.password !== password) {
+            throw new Error("Password is incorrect");
         }
 
         return user;
