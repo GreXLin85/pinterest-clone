@@ -1,11 +1,13 @@
 {
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": "ts-node src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "migrate": "prisma migrate dev --name init",
     "migrate:reset": "prisma migrate reset",
-    "docker:compose:up": "docker-compose up -d --build",
+    "docker:start": "ts-node server.ts",
+    "docker:compose:up": "docker-compose up -d --build --remove-orphans",
+    "docker:compose:up:db:sync": "docker-compose up -d --build --remove-orphans && docker exec pinserver npx prisma db push",
     "docker:compose:down": "docker-compose down",
     "docker:compose:logs": "docker-compose logs -f",
     "docker:compose:ps": "docker-compose ps"
