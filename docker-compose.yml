@@ -24,21 +24,7 @@ services:
       - "4000:4000"
     restart: always
     env_file:
-      - ./server/.env
-
-  pinclient:
-    build:
-      context: .
-      dockerfile: ./client/Dockerfile
-    container_name: pinclient
-    depends_on:
-      - pindb
-      - server
-    ports:
-      - "3000:3000"
-    restart: always
-    env_file:
-      - ./client/.env
+      - ./.env
 volumes:
   postgres-data:
   pgadmin-data:
