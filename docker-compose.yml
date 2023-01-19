@@ -2,7 +2,6 @@ version: "3.9"
 services:
   pindb:
     image: postgres:latest
-    container_name: pindb
     ports:
       - 5432:5432
     environment:
@@ -16,8 +15,7 @@ services:
   pinserver:
     build:
       context: .
-      dockerfile: ./server/Dockerfile
-    container_name: pinserver
+      dockerfile: ./Dockerfile
     depends_on:
       - pindb
     ports:
