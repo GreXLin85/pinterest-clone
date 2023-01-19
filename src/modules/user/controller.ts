@@ -8,6 +8,11 @@ export class UserController {
         try {
             const { id } = req.params as { id: string };
             const user = await UserService.getUserById(Number(id));
+
+            // We don't want to send the password to the client
+            // @ts-ignore
+            delete user?.password;
+
             return MessageHelper(user, false, res);
         } catch (error: any) {
             return MessageHelper(error.message, true, res);
@@ -18,6 +23,11 @@ export class UserController {
         try {
             const { username } = req.params as { username: string };
             const user = await UserService.getUserByUsername(username);
+
+            // We don't want to send the password to the client
+            // @ts-ignore
+            delete user?.password;
+
             return MessageHelper(user, false, res);
         } catch (error: any) {
             return MessageHelper(error.message, true, res);
@@ -30,6 +40,13 @@ export class UserController {
             let { take, skip } = req.query as unknown as { take: number, skip: number };
 
             const users = await UserService.getUsers(skip, take);
+
+            // We don't want to send the password to the client
+            users.forEach(user => {
+                // @ts-ignore
+                delete user?.password;
+            });
+
             return MessageHelper(users, false, res);
         } catch (error: any) {
             return MessageHelper(error.message, true, res);
