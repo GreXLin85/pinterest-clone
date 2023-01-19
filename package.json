@@ -8,7 +8,7 @@
     "migrate:reset": "prisma migrate reset",
     "docker:start": "ts-node server.ts",
     "docker:compose:up": "docker-compose up -d --build --remove-orphans",
-    "docker:compose:up:db:sync": "docker-compose up -d --build --remove-orphans && docker exec pinserver npx prisma db push",
+    "docker:compose:up:db:sync": "yarn run docker:compose:up && docker exec pinterest-clone_pinserver_1 npx prisma db push && docker exec pinterest-clone_pinserver_1 npx ts-node seeder.ts",
     "docker:compose:down": "docker-compose down",
     "docker:compose:logs": "docker-compose logs -f",
     "docker:compose:ps": "docker-compose ps"
