@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app, { appListener } from '../../server';
+import app from '../../server';
 import { faker } from '@faker-js/faker';
 
 
@@ -119,9 +119,5 @@ describe('User', () => {
 
         expect(response.status).toBe(400);
         expect(response.body.data).toBe('User not found');
-    });
-
-    afterAll(async () => {
-        appListener.close();
     });
 });
