@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { sign } from "../../helpers/JWTHelper";
 import MessageHelper from "../../helpers/MessageHelper";
 import { UserService } from "./services";
 
