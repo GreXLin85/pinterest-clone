@@ -14,10 +14,7 @@ describe('Role', () => {
                     "READ_USER",
                     "UPDATE_USER",
                 ]
-            });
-
-        console.log(response.body);
-        
+            });       
 
         roleId = response.body.data.id;
 
