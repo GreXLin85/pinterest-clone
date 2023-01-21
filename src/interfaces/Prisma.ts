@@ -1,7 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
+
+let whichOneToLog: (Prisma.LogLevel | Prisma.LogDefinition)[] = process.env.NODE_ENV !== 'test' ? ['info', 'warn', 'error'] : []
 
 const prisma = new PrismaClient({
-  log: ['info', 'warn', 'error']
+  log: whichOneToLog
 });
 
 export default prisma
