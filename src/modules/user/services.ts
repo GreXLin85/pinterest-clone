@@ -50,7 +50,13 @@ export class UserService {
     }
 
     static createUser = async (username: string, password: string, roleId: number) => {
-        const user = await prisma.user.create({
+        const user = await this.getUserByUsername(username)
+
+        if(user) {
+            throw new Error("User already exists");
+        }
+        
+        const createdUser = await prisma.user.create({
             data: {
                 username: username,
                 password: password,
@@ -62,27 +68,39 @@ export class UserService {
             }
         })
 
-        return user;
+        return createdUser;
     }
 
     static updateUser = async (id: number, updateData: Prisma.XOR<Prisma.UserUpdateInput, Prisma.UserUncheckedUpdateInput>) => {
-        const user = await prisma.user.update({
+        let user = await this.getUserById(id);
+        
+        if(!user) {
+            throw new Error("User not found");
+        }
+        
+        const updatedUser = await prisma.user.update({
             where: {
-                id: id
+                id: user.id
             },
             data: updateData
         })
 
-        return user;
+        return updatedUser;
     }
 
     static deleteUser = async (id: number) => {
-        const user = await prisma.user.delete({
+        let user = await this.getUserById(id);
+
+        if(!user) {
+            throw new Error("User not found");
+        }
+
+        const deletedUser = await prisma.user.delete({
             where: {
                 id: id
             }
         })
 
-        return user;
+        return deletedUser;
     }
 }
