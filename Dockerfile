@@ -16,6 +16,8 @@ COPY ./tsconfig.json ./
 COPY ./prisma ./prisma
 COPY ./src ./
 
+ENV DATABASE_URL="postgresql://pinuser:pinpass@pindb:5432/pindb?schema=public"
+
 # Generate prisma client
 RUN npx prisma generate
 
