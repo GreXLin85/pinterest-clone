@@ -4,7 +4,9 @@ import { UserController } from './controller';
 export class UserRoute {
     public routes(app: Application): void {
         app.route('/user/:id')
-            .get(new UserController().getUser);
+            .get(new UserController().getUser)
+            .put(new UserController().updateUser)
+            .delete(new UserController().deleteUser);
 
         app.route('/user/username/:username')
             .get(new UserController().getUserByUsername);
@@ -14,7 +16,5 @@ export class UserRoute {
 
         app.route('/user')
             .post(new UserController().createUser)
-            .put(new UserController().updateUser)
-            .delete(new UserController().deleteUser);
     }
 }
