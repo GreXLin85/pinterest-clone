@@ -9,6 +9,10 @@ export class UserController {
             const { id } = req.params as { id: string };
             const user = await UserService.getUserById(Number(id));
 
+            if (!user) {
+                return MessageHelper("User not found", true, res);
+            }
+
             // We don't want to send the password to the client
             // @ts-ignore
             delete user?.password;
