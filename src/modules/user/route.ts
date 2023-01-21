@@ -6,6 +6,7 @@ export class UserRoute {
         app.route('/user/:id')
             .get(new UserController().getUser)
             .put(new UserController().updateUser)
+            .patch(new UserController().updatePassword)
             .delete(new UserController().deleteUser);
 
         app.route('/user/username/:username')

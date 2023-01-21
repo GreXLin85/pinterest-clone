@@ -81,6 +81,31 @@ export class UserController {
         }
     }
 
+    updatePassword = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params as { id: string };
+            const { oldPassword, newPassword } = req.body as { oldPassword: string, newPassword: string };
+            const user = await UserService.getUserById(Number(id));
+
+            if (!user) {
+                return MessageHelper("User not found", true, res);
+            }
+
+            if (user.password !== oldPassword) {
+                return MessageHelper("Incorrect password", true, res);
+            }
+
+            const updatedUser = await UserService.updateUser(Number(id), {
+                password: newPassword
+            });
+
+            return MessageHelper(updatedUser, false, res);
+
+        } catch (error: any) {
+            return MessageHelper(error.message, true, res);
+        }
+    }
+
     deleteUser = async (req: Request, res: Response) => {
         try {
             const { id } = req.params as { id: string };
