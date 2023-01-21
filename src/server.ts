@@ -19,3 +19,5 @@ const SERVER_PORT = Number(process.env.PORT) || 4000;
 app.listen(SERVER_PORT, () => {
   console.log('Server started on port ', SERVER_PORT);
 });
+
+export default app;
