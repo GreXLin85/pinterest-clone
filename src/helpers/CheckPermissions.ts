@@ -1,4 +1,4 @@
-import { Permission, Role } from "@prisma/client";
+import { Permission } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import prisma from "../interfaces/Prisma";
 import MessageHelper from "./MessageHelper";

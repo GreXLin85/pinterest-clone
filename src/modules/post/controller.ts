@@ -21,7 +21,7 @@ export class PostController {
     getPosts = async (req: Request, res: Response) => {
         try {
             // Request query params are always strings by default so we need to cast them to numbers
-            let { take, skip } = req.query as unknown as { take: number, skip: number };
+            const { take, skip } = req.query as unknown as { take: number, skip: number };
 
             const posts = await PostService.getPosts(skip, take);
 

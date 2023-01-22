@@ -33,7 +33,7 @@ export class RoleController {
     getRoles = async (req: Request, res: Response) => {
         try {
             // Request query params are always strings by default so we need to cast them to numbers
-            let { take, skip } = req.query as unknown as { take: number, skip: number };
+            const { take, skip } = req.query as unknown as { take: number, skip: number };
 
             const roles = await RoleService.getRoles(skip, take);
 
@@ -70,7 +70,7 @@ export class RoleController {
         try {
             const { id } = req.params
 
-            let role = await RoleService.deleteRole(Number(id));
+            const role = await RoleService.deleteRole(Number(id));
 
             return MessageHelper(role, false, res);
         } catch (error: any) {

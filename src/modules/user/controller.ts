@@ -27,6 +27,10 @@ export class UserController {
             const { username } = req.params as { username: string };
             const user = await UserService.getUserByUsername(username);
 
+            if (!user) {
+                return MessageHelper("User not found", true, res);
+            }
+
             // We don't want to send the password to the client
             // @ts-ignore
             delete user?.password;
@@ -40,7 +44,7 @@ export class UserController {
     getUsers = async (req: Request, res: Response) => {
         try {
             // Request query params are always strings by default so we need to cast them to numbers
-            let { take, skip } = req.query as unknown as { take: number, skip: number };
+            const { take, skip } = req.query as unknown as { take: number, skip: number };
 
             const users = await UserService.getUsers(skip, take);
 
