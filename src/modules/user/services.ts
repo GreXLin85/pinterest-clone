@@ -72,7 +72,7 @@ export class UserService {
     }
 
     static updateUser = async (id: number, updateData: Prisma.XOR<Prisma.UserUpdateInput, Prisma.UserUncheckedUpdateInput>) => {
-        let user = await this.getUserById(id);
+        const user = await this.getUserById(id);
         
         if(!user) {
             throw new Error("User not found");
@@ -89,7 +89,7 @@ export class UserService {
     }
 
     static deleteUser = async (id: number) => {
-        let user = await this.getUserById(id);
+        const user = await this.getUserById(id);
 
         if(!user) {
             throw new Error("User not found");
