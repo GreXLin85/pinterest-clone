@@ -1,7 +1,7 @@
 import { PostService } from "./services";
 import prisma from "../../interfaces/Prisma";
 
-describe("RoleService", () => {
+describe("PostService", () => {
     let postId: number;
     let commentId: number;
 

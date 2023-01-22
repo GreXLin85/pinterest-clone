@@ -3,7 +3,7 @@ import app from '../../server';
 import { faker } from '@faker-js/faker';
 
 
-describe('User', () => {
+describe('Auth', () => {
     const userUsername = faker.internet.userName();
     const userPassword = faker.internet.password();
 
