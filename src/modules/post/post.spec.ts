@@ -15,7 +15,6 @@ import { PostService } from './services';
 
 describe('Post', () => {
     let postId: number;
-    let commentId: number;
 
     it('should create a new post', async () => {
         const response = await request(app)
