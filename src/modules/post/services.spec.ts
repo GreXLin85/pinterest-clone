@@ -3,7 +3,6 @@ import prisma from "../../interfaces/Prisma";
 
 describe("PostService", () => {
     let postId: number;
-    let commentId: number;
 
     it("is creating a post", async () => {
         const post = await PostService.createPost({
