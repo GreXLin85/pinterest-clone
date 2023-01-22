@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -16,10 +17,12 @@ model User {
   password  String
   Role      Role      @relation(fields: [roleId], references: [id])
   roleId    Int
-  Post      Post[]
+  posts     Post[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Comment   Comment[]
+  comments  Comment[]
+
+  @@map("users")
 }
 
 model Role {
@@ -29,6 +32,8 @@ model Role {
   users       User[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+
+  @@map("roles")
 }
 
 enum Permission {
@@ -68,7 +73,9 @@ model Post {
   published Boolean   @default(false)
   author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
-  Comment   Comment[]
+  comments  Comment[]
+
+  @@map("posts")
 }
 
 model Comment {
@@ -79,6 +86,8 @@ model Comment {
   likes     Int      @default(0)
   author    User     @relation(fields: [authorId], references: [id])
   authorId  Int
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
+
+  @@map("comments")
 }
