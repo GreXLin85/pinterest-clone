@@ -5,7 +5,7 @@ export class PostService {
     static getPostById = async (id: number) => {
         const post = await prisma.post.findUnique({
             where: {
-                id: id
+                id
             },
             include: {
                 comments: true,
@@ -53,8 +53,8 @@ export class PostService {
         }
 
         const posts = await prisma.post.findMany({
-            skip: skip,
-            take: take,
+            skip,
+            take,
             include: {
                 comments: true,
                 author: true
@@ -66,7 +66,7 @@ export class PostService {
 
     static createPost = async (data: Prisma.XOR<Prisma.PostCreateInput, Prisma.PostUncheckedCreateInput>) => {
         const post = await prisma.post.create({
-            data: data
+            data
         })
 
         return post;
@@ -75,9 +75,9 @@ export class PostService {
     static updatePost = async (id: number, data: Prisma.PostUpdateInput) => {
         const post = await prisma.post.update({
             where: {
-                id: id
+                id
             },
-            data: data
+            data
         })
 
         return post;
@@ -86,7 +86,7 @@ export class PostService {
     static deletePost = async (id: number) => {
         const post = await prisma.post.delete({
             where: {
-                id: id
+                id
             }
         })
 

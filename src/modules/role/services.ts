@@ -5,7 +5,7 @@ export class RoleService {
     static getRoleById = async (id: number) => {
         const role = await prisma.role.findUnique({
             where: {
-                id: id
+                id
             }
         })
 
@@ -15,7 +15,7 @@ export class RoleService {
     static getRoleByName = async (name: string) => {
         const role = await prisma.role.findUnique({
             where: {
-                name: name
+                name
             }
         })
 
@@ -42,8 +42,8 @@ export class RoleService {
         }
 
         const roles = await prisma.role.findMany({
-            skip: skip,
-            take: take,
+            skip,
+            take,
         })
 
         return roles;
@@ -58,7 +58,7 @@ export class RoleService {
         
         const createdRole = await prisma.role.create({
             data: {
-                name: name,
+                name,
                 permissions
             }
         })
@@ -69,9 +69,9 @@ export class RoleService {
     static updateRole = async (id: number, data: Prisma.RoleUpdateInput) => {
         const updatedRole = await prisma.role.update({
             where: {
-                id: id
+                id
             },
-            data: data
+            data
         })
 
         return updatedRole;
@@ -80,7 +80,7 @@ export class RoleService {
     static deleteRole = async (id: number) => {
         const deletedRole = await prisma.role.delete({
             where: {
-                id: id
+                id
             }
         })
 
