@@ -78,9 +78,9 @@ export class UserController {
             const { id } = req.params as { id: string };
             const { username, password, roleId } = req.body as Partial<{ username: string, password: string, roleId: number }>;
             const user = await UserService.updateUser(Number(id), {
-                username: username,
-                password: password,
-                roleId: roleId
+                username,
+                password,
+                roleId
             });
             return MessageHelper(user, false, res);
         } catch (error: any) {

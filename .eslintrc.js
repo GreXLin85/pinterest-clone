@@ -21,5 +21,6 @@ module.exports = {
         "@typescript-eslint/ban-ts-comment": "off",
         "prefer-const": "error",
         "@typescript-eslint/no-explicit-any": "off",
+        "object-shorthand": ["error", "always"]
     },
 }

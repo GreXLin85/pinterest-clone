@@ -5,7 +5,7 @@ export class UserService {
     static getUserById = async (id: number) => {
         const user = await prisma.user.findUnique({
             where: {
-                id: id
+                id
             }
         })
 
@@ -15,7 +15,7 @@ export class UserService {
     static getUserByUsername = async (username: string) => {
         const user = await prisma.user.findUnique({
             where: {
-                username: username
+                username
             }
         })
 
@@ -42,8 +42,8 @@ export class UserService {
         }
 
         const users = await prisma.user.findMany({
-            skip: skip,
-            take: take,
+            skip,
+            take,
         })
 
         return users;
@@ -58,8 +58,8 @@ export class UserService {
         
         const createdUser = await prisma.user.create({
             data: {
-                username: username,
-                password: password,
+                username,
+                password,
                 Role: {
                     connect: {
                         id: roleId
@@ -97,7 +97,7 @@ export class UserService {
 
         const deletedUser = await prisma.user.delete({
             where: {
-                id: id
+                id
             }
         })
 
