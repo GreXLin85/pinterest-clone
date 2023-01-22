@@ -18,5 +18,8 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-    }
+        "@typescript-eslint/ban-ts-comment": "off",
+        "prefer-const": "error",
+        "@typescript-eslint/no-explicit-any": "off",
+    },
 }
