@@ -5,6 +5,7 @@ import RouteLoader from './helpers/RouteLoader';
 import { AuthRoute } from './modules/auth/route';
 import { UserRoute } from './modules/user/route';
 import { RoleRoute } from './modules/role/route';
+import { PostRoute } from './modules/post/route';
 const app = express();
 
 app.use(json());
@@ -13,7 +14,8 @@ app.use(cors());
 RouteLoader(app, [
   new AuthRoute(),
   new UserRoute(),
-  new RoleRoute()
+  new RoleRoute(),
+  new PostRoute(),
 ])
 
 const SERVER_PORT = Number(process.env.PORT) || 4000;
