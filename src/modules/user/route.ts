@@ -1,21 +1,23 @@
 import { Application } from 'express';
+import checkPermissions from '../../helpers/CheckPermissions';
+import { verifyToken } from '../../helpers/TokenHelper';
 import { UserController } from './controller';
 
 export class UserRoute {
     public routes(app: Application): void {
         app.route('/user/:id')
-            .get(new UserController().getUser)
-            .put(new UserController().updateUser)
-            .patch(new UserController().updatePassword)
-            .delete(new UserController().deleteUser);
+            .get(verifyToken, checkPermissions(["READ_USER"]), new UserController().getUser)
+            .put(verifyToken, checkPermissions(["UPDATE_USER"]), new UserController().updateUser)
+            .patch(verifyToken, checkPermissions(["UPDATE_USER"]), new UserController().updatePassword)
+            .delete(verifyToken, checkPermissions(["DELETE_USER"]), new UserController().deleteUser);
 
         app.route('/user/username/:username')
             .get(new UserController().getUserByUsername);
 
         app.route('/users')
-            .get(new UserController().getUsers);
+            .get(verifyToken, checkPermissions(["READ_USER"]), new UserController().getUsers);
 
         app.route('/user')
-            .post(new UserController().createUser)
+            .post(verifyToken, checkPermissions(["CREATE_USER"]), new UserController().createUser)
     }
 }
