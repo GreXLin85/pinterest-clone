@@ -1,6 +1,9 @@
 import express from 'express';
 import { json } from 'body-parser';
 import cors from 'cors';
+import * as dotenv from 'dotenv'
+dotenv.config();
+
 import RouteLoader from './helpers/RouteLoader';
 import { AuthRoute } from './modules/auth/route';
 import { UserRoute } from './modules/user/route';
