@@ -39,7 +39,7 @@ describe('User', () => {
     });
 
     it('should get a user', async () => {
-        const response = await request(app).get('/user/' + userId);
+        const response = await request(app).get(`/user/${userId}`);
 
         expect(response.status).toBe(200);
         expect(response.body.data).toHaveProperty('id');
@@ -61,7 +61,7 @@ describe('User', () => {
 
     it('should update a user', async () => {
         const response = await request(app)
-            .put('/user/' + userId)
+            .put(`/user/${userId}`)
             .send({
                 username: userNewUsername,
             });
@@ -85,7 +85,7 @@ describe('User', () => {
 
     it('should update a user password', async () => {
         const response = await request(app)
-            .patch('/user/' + userId)
+            .patch(`/user/${userId}`)
             .send({
                 oldPassword: userPassword,
                 newPassword: userNewPassword,
@@ -97,7 +97,7 @@ describe('User', () => {
 
     it('should not update a user password', async () => {
         const response = await request(app)
-            .patch('/user/' + userId)
+            .patch(`/user/${userId}`)
             .send({
                 oldPassword: userPassword,
                 newPassword: userNewPassword,
@@ -108,7 +108,7 @@ describe('User', () => {
     });
 
     it('should delete a user', async () => {
-        const response = await request(app).delete('/user/' + userId);
+        const response = await request(app).delete(`/user/${userId}`);
 
         expect(response.status).toBe(200);
         expect(response.body.data).toHaveProperty('id');
