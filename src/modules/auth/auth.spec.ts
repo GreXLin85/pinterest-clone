@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../../server';
 import { faker } from '@faker-js/faker';
+import { UserService } from '../user/services';
 
 
 describe('Auth', () => {
@@ -54,4 +55,9 @@ describe('Auth', () => {
         expect(response.status).toBe(400);
         expect(response.body.data).toBe('Password is incorrect');
     });
+
+    afterAll(async () => {
+        const userId = (await UserService.getUserByUsername(userUsername))?.id as number
+        await UserService.deleteUser(userId)
+    })
 });
