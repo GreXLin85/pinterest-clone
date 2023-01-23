@@ -6,6 +6,7 @@ import { AuthRoute } from './modules/auth/route';
 import { UserRoute } from './modules/user/route';
 import { RoleRoute } from './modules/role/route';
 import { PostRoute } from './modules/post/route';
+import { CommentRoute } from './modules/comment/route';
 const app = express();
 
 app.use(json());
@@ -16,6 +17,7 @@ RouteLoader(app, [
   new UserRoute(),
   new RoleRoute(),
   new PostRoute(),
+  new CommentRoute()
 ])
 
 const SERVER_PORT = Number(process.env.PORT) || 4000;
