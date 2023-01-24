@@ -1,3 +1,4 @@
+import { verify } from "../../helpers/JWTHelper";
 import prisma from "../../interfaces/Prisma";
 import { UserService } from "../user/services";
 export class AuthService {
@@ -15,6 +16,30 @@ export class AuthService {
         if (user.password !== password) {
             throw new Error("Password is incorrect");
         }
+
+        return user;
+    }
+
+    static getUserByToken = async (token: string) => {
+        let userId: number;
+        try {
+            userId = verify(token).id;
+        } catch (error) {
+            throw new Error("Invalid token");
+        }
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            },
+        })
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        // @ts-ignore
+        delete user.password;
 
         return user;
     }

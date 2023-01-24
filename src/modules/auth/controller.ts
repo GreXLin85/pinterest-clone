@@ -15,6 +15,17 @@ export class AuthController {
         }
     }
 
+    getUserByToken = async (req: Request, res: Response) => {
+        try {
+            const token = req.headers["x-access-token"] as string;
+
+            const user = await AuthService.getUserByToken(token);
+            return MessageHelper(user, false, res);
+        } catch (error: any) {
+            return MessageHelper(error.message, true, res);
+        }
+    }
+
     register = async (req: Request, res: Response) => {
         try {
             const { username, password } = req.body as { username: string, password: string };
