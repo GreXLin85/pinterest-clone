@@ -60,7 +60,7 @@ export class UserService {
             data: {
                 username,
                 password,
-                Role: {
+                role: {
                     connect: {
                         id: roleId
                     }

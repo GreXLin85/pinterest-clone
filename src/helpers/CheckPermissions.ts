@@ -14,7 +14,7 @@ function checkPermissions(permissionsNeeded: Permission[]) {
       where: {
         id: user.id,
       }
-    }).Role({
+    }).role({
       select: {
         permissions: true
       }
