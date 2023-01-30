@@ -6,6 +6,11 @@ export class UserService {
         const user = await prisma.user.findUnique({
             where: {
                 id
+            },
+            include: {
+                role: true,
+                posts: true,
+                comments: true,
             }
         })
 
@@ -16,6 +21,11 @@ export class UserService {
         const user = await prisma.user.findUnique({
             where: {
                 username
+            },
+            include: {
+                role: true,
+                posts: true,
+                comments: true,
             }
         })
 
