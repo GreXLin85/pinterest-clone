@@ -8,5 +8,8 @@ export class AuthRoute {
 
         app.route('/auth/register')
             .post(new AuthController().register);
+
+        app.route('/auth/user')
+            .get(new AuthController().getUserByToken);
     }
 }

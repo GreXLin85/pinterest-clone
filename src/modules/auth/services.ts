@@ -32,6 +32,11 @@ export class AuthService {
             where: {
                 id: userId
             },
+            include: {
+                role: true,
+                posts: true,
+                comments: true,
+            }
         })
 
         if (!user) {
