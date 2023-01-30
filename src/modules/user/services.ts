@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "../../interfaces/Prisma";
 
 export class UserService {
-    static getUserById = async (id: number) => {
+    getUserById = async (id: number) => {
         const user = await prisma.user.findUnique({
             where: {
                 id
@@ -17,7 +17,7 @@ export class UserService {
         return user;
     }
 
-    static getUserByUsername = async (username: string) => {
+    getUserByUsername = async (username: string) => {
         const user = await prisma.user.findUnique({
             where: {
                 username
@@ -32,7 +32,7 @@ export class UserService {
         return user;
     }
 
-    static getUsers = async (
+    getUsers = async (
         skip?: number,
         take?: number,
     ) => {
@@ -59,7 +59,7 @@ export class UserService {
         return users;
     }
 
-    static createUser = async (username: string, password: string, roleId: number) => {
+    createUser = async (username: string, password: string, roleId: number) => {
         const user = await this.getUserByUsername(username)
 
         if(user) {
@@ -81,7 +81,7 @@ export class UserService {
         return createdUser;
     }
 
-    static updateUser = async (id: number, updateData: Prisma.XOR<Prisma.UserUpdateInput, Prisma.UserUncheckedUpdateInput>) => {
+    updateUser = async (id: number, updateData: Prisma.XOR<Prisma.UserUpdateInput, Prisma.UserUncheckedUpdateInput>) => {
         const user = await this.getUserById(id);
         
         if(!user) {
@@ -98,7 +98,7 @@ export class UserService {
         return updatedUser;
     }
 
-    static deleteUser = async (id: number) => {
+    deleteUser = async (id: number) => {
         const user = await this.getUserById(id);
 
         if(!user) {

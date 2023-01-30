@@ -2,7 +2,7 @@ import { verify } from "../../helpers/JWTHelper";
 import prisma from "../../interfaces/Prisma";
 import { UserService } from "../user/services";
 export class AuthService {
-    static login = async (username: string, password: string) => {
+    login = async (username: string, password: string) => {
         if (!username || !password) {
             throw new Error("Username or password is empty");
         }
@@ -20,7 +20,7 @@ export class AuthService {
         return user;
     }
 
-    static getUserByToken = async (token: string) => {
+    getUserByToken = async (token: string) => {
         let userId: number;
         try {
             userId = verify(token).id;
@@ -49,7 +49,7 @@ export class AuthService {
         return user;
     }
 
-    static register = async (username: string, password: string) => {
+    register = async (username: string, password: string) => {
         if (!username || !password) {
             throw new Error("Username or password is empty");
         }

@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "../../interfaces/Prisma";
 
 export class PostService {
-    static getPostById = async (id: number) => {
+    getPostById = async (id: number) => {
         const post = await prisma.post.findUnique({
             where: {
                 id
@@ -16,7 +16,7 @@ export class PostService {
         return post;
     }
 
-    static searchPostsByTitle = async (title: string) => {
+    searchPostsByTitle = async (title: string) => {
         const posts = await prisma.post.findMany({
             take: 10,
             where: {
@@ -33,7 +33,7 @@ export class PostService {
         return posts;
     }
 
-    static getPosts = async (
+    getPosts = async (
         skip?: number,
         take?: number,
     ) => {
@@ -64,7 +64,7 @@ export class PostService {
         return posts;
     }
 
-    static createPost = async (data: Prisma.XOR<Prisma.PostCreateInput, Prisma.PostUncheckedCreateInput>) => {
+    createPost = async (data: Prisma.XOR<Prisma.PostCreateInput, Prisma.PostUncheckedCreateInput>) => {
         const post = await prisma.post.create({
             data
         })
@@ -72,7 +72,7 @@ export class PostService {
         return post;
     }
 
-    static updatePost = async (id: number, data: Prisma.PostUpdateInput) => {
+    updatePost = async (id: number, data: Prisma.PostUpdateInput) => {
         const post = await prisma.post.update({
             where: {
                 id
@@ -83,7 +83,7 @@ export class PostService {
         return post;
     }
     
-    static deletePost = async (id: number) => {
+    deletePost = async (id: number) => {
         const post = await prisma.post.delete({
             where: {
                 id

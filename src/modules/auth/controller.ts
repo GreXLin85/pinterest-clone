@@ -4,10 +4,12 @@ import MessageHelper from "../../helpers/MessageHelper";
 import { AuthService } from "./services";
 
 export class AuthController {
+    private authService = new AuthService()
+
     login = async (req: Request, res: Response) => {
         try {
             const { username, password } = req.body as { username: string, password: string };
-            const user = await AuthService.login(username, password);
+            const user = await this.authService.login(username, password);
             const token = sign(user.id);
             return MessageHelper({ token }, false, res);
         } catch (error: any) {
@@ -19,7 +21,7 @@ export class AuthController {
         try {
             const token = req.headers["x-access-token"] as string;
 
-            const user = await AuthService.getUserByToken(token);
+            const user = await this.authService.getUserByToken(token);
             return MessageHelper(user, false, res);
         } catch (error: any) {
             return MessageHelper(error.message, true, res);
@@ -29,7 +31,7 @@ export class AuthController {
     register = async (req: Request, res: Response) => {
         try {
             const { username, password } = req.body as { username: string, password: string };
-            const user = await AuthService.register(username, password);
+            const user = await this.authService.register(username, password);
             const token = sign(user.id);
             return MessageHelper({ token }, false, res);
         } catch (error: any) {

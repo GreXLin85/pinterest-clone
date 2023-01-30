@@ -3,10 +3,12 @@ import MessageHelper from "../../helpers/MessageHelper";
 import { UserService } from "./services";
 
 export class UserController {
+    private userService = new UserService();
+
     getUser = async (req: Request, res: Response) => {
         try {
             const { id } = req.params as { id: string };
-            const user = await UserService.getUserById(Number(id));
+            const user = await this.userService.getUserById(Number(id));
 
             if (!user) {
                 return MessageHelper("User not found", true, res);
@@ -25,7 +27,7 @@ export class UserController {
     getUserByUsername = async (req: Request, res: Response) => {
         try {
             const { username } = req.params as { username: string };
-            const user = await UserService.getUserByUsername(username);
+            const user = await this.userService.getUserByUsername(username);
 
             if (!user) {
                 return MessageHelper("User not found", true, res);
@@ -46,7 +48,7 @@ export class UserController {
             // Request query params are always strings by default so we need to cast them to numbers
             const { take, skip } = req.query as unknown as { take: number, skip: number };
 
-            const users = await UserService.getUsers(skip, take);
+            const users = await this.userService.getUsers(skip, take);
 
             // We don't want to send the password to the client
             users.forEach(user => {
@@ -63,7 +65,7 @@ export class UserController {
     createUser = async (req: Request, res: Response) => {
         try {
             const { username, password, roleId } = req.body as { username: string, password: string, roleId: number };
-            const user = await UserService.createUser(username, password, roleId);
+            const user = await this.userService.createUser(username, password, roleId);
             return MessageHelper(user, false, res);
         } catch (error: any) {
             if (error.message.includes("Unique constraint failed")) {
@@ -77,7 +79,7 @@ export class UserController {
         try {
             const { id } = req.params as { id: string };
             const { username, password, roleId } = req.body as Partial<{ username: string, password: string, roleId: number }>;
-            const user = await UserService.updateUser(Number(id), {
+            const user = await this.userService.updateUser(Number(id), {
                 username,
                 password,
                 roleId
@@ -92,7 +94,7 @@ export class UserController {
         try {
             const { id } = req.params as { id: string };
             const { oldPassword, newPassword } = req.body as { oldPassword: string, newPassword: string };
-            const user = await UserService.getUserById(Number(id));
+            const user = await this.userService.getUserById(Number(id));
 
             if (!user) {
                 return MessageHelper("User not found", true, res);
@@ -102,7 +104,7 @@ export class UserController {
                 return MessageHelper("Incorrect password", true, res);
             }
 
-            const updatedUser = await UserService.updateUser(Number(id), {
+            const updatedUser = await this.userService.updateUser(Number(id), {
                 password: newPassword
             });
 
@@ -116,7 +118,7 @@ export class UserController {
     deleteUser = async (req: Request, res: Response) => {
         try {
             const { id } = req.params as { id: string };
-            const user = await UserService.deleteUser(Number(id));
+            const user = await this.userService.deleteUser(Number(id));
             return MessageHelper(user, false, res);
         } catch (error: any) {
             return MessageHelper(error.message, true, res);

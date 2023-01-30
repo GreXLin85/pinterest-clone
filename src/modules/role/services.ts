@@ -2,7 +2,7 @@ import { Permission, Prisma } from "@prisma/client";
 import prisma from "../../interfaces/Prisma";
 
 export class RoleService {
-    static getRoleById = async (id: number) => {
+    getRoleById = async (id: number) => {
         const role = await prisma.role.findUnique({
             where: {
                 id
@@ -12,7 +12,7 @@ export class RoleService {
         return role;
     }
 
-    static getRoleByName = async (name: string) => {
+    getRoleByName = async (name: string) => {
         const role = await prisma.role.findUnique({
             where: {
                 name
@@ -22,7 +22,7 @@ export class RoleService {
         return role;
     }
 
-    static getRoles = async (
+    getRoles = async (
         skip?: number,
         take?: number,
     ) => {
@@ -49,7 +49,7 @@ export class RoleService {
         return roles;
     }
 
-    static createRole = async (name: string, permissions: Permission[]) => {
+    createRole = async (name: string, permissions: Permission[]) => {
         const role = await this.getRoleByName(name)
 
         if(role) {
@@ -66,7 +66,7 @@ export class RoleService {
         return createdRole;
     }
 
-    static updateRole = async (id: number, data: Prisma.RoleUpdateInput) => {
+    updateRole = async (id: number, data: Prisma.RoleUpdateInput) => {
         const updatedRole = await prisma.role.update({
             where: {
                 id
@@ -77,7 +77,7 @@ export class RoleService {
         return updatedRole;
     }
 
-    static deleteRole = async (id: number) => {
+    deleteRole = async (id: number) => {
         const deletedRole = await prisma.role.delete({
             where: {
                 id
