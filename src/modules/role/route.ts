@@ -1,20 +1,22 @@
 import { Application } from 'express';
+import checkPermissions from '../../helpers/CheckPermissions';
+import { verifyToken } from '../../helpers/TokenHelper';
 import { RoleController } from './controller';
 
 export class RoleRoute {
     public routes(app: Application): void {
         app.route('/role/:id')
-            .get(new RoleController().getRole)
-            .put(new RoleController().updateRole)
-            .delete(new RoleController().deleteRole);
+            .get(verifyToken, checkPermissions(["READ_ROLE"]), new RoleController().getRole)
+            .put(verifyToken, checkPermissions(["UPDATE_ROLE"]), new RoleController().updateRole)
+            .delete(verifyToken, checkPermissions(["DELETE_ROLE"]), new RoleController().deleteRole);
 
         app.route('/role/name/:name')
-            .get(new RoleController().getRoleByName);
+            .get(verifyToken, checkPermissions(["READ_ROLE"]), new RoleController().getRoleByName);
 
         app.route('/roles')
-            .get(new RoleController().getRoles);
+            .get(verifyToken, checkPermissions(["READ_ROLE"]), new RoleController().getRoles);
 
         app.route('/role')
-            .post(new RoleController().createRole)
+            .post(verifyToken, checkPermissions(["CREATE_ROLE"]), new RoleController().createRole)
     }
 }
