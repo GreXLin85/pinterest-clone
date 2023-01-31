@@ -68,9 +68,6 @@ export class UserController {
             const user = await this.userService.createUser(username, password, roleId);
             return MessageHelper(user, false, res);
         } catch (error: any) {
-            if (error.message.includes("Unique constraint failed")) {
-                return MessageHelper("User already exists", true, res);
-            }
             return MessageHelper(error.message, true, res);
         }
     }
