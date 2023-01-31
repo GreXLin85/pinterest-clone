@@ -2,12 +2,14 @@ import { verify } from "../../helpers/JWTHelper";
 import prisma from "../../interfaces/Prisma";
 import { UserService } from "../user/services";
 export class AuthService {
+    private userService = new UserService();
+
     login = async (username: string, password: string) => {
         if (!username || !password) {
             throw new Error("Username or password is empty");
         }
 
-        const user = await UserService.getUserByUsername(username);
+        const user = await this.userService.getUserByUsername(username);
 
         if (!user) {
             throw new Error("User not found");
@@ -65,7 +67,7 @@ export class AuthService {
             id: number
         }
 
-        const user = await UserService.createUser(username, password, userRole.id);
+        const user = await this.userService.createUser(username, password, userRole.id);
 
         return user;
     }
