@@ -3,9 +3,10 @@ import prisma from "../../interfaces/Prisma";
 
 describe("PostService", () => {
     let postId: number;
+    const postService = new PostService()
 
     it("is creating a post", async () => {
-        const post = await PostService.createPost({
+        const post = await postService.createPost({
             title: "TEST_POST",
             content: "TEST_CONTENT",
             image: "TEST_IMAGE",
@@ -18,25 +19,25 @@ describe("PostService", () => {
     })
 
     it("is getting a post by id", async () => {
-        const getPost = await PostService.getPostById(postId)
+        const getPost = await postService.getPostById(postId)
 
         expect(getPost?.title).toBe("TEST_POST");
     })
 
     it("is searching posts by title", async () => {
-        const searchPosts = await PostService.searchPostsByTitle("TEST_")
+        const searchPosts = await postService.searchPostsByTitle("TEST_")
 
         expect(searchPosts[0]).toHaveProperty("id");
     })
 
     it("is getting all posts", async () => {
-        const getPosts = await PostService.getPosts()
+        const getPosts = await postService.getPosts()
 
         expect(getPosts[0]).toHaveProperty("id");
     })
 
     it("is updating a post", async () => {
-        const updatePost = await PostService.updatePost(postId, {
+        const updatePost = await postService.updatePost(postId, {
             title: "TEST_POST_UPDATED"
         })
 
@@ -44,7 +45,7 @@ describe("PostService", () => {
     })
 
     it("is deleting a post", async () => {
-        const deletePost = await PostService.deletePost(postId)
+        const deletePost = await postService.deletePost(postId)
 
         expect(deletePost.id).toBeDefined();
     })

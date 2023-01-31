@@ -2,9 +2,11 @@ import { AuthService } from "./services";
 import prisma from "../../interfaces/Prisma";
 
 describe("AuthService", () => {
+    const authService = new AuthService()
+    
     describe("Register", () => {
         it("is registering with correct credentials", async () => {
-            const register = await AuthService.register("User2", "user2")
+            const register = await authService.register("User2", "user2")
 
             expect(register.id).toBeDefined();
             expect(register.username).toBe("User2");
@@ -13,7 +15,7 @@ describe("AuthService", () => {
 
     describe("Login", () => {
         it("is logging in with correct credentials", async () => {
-            const login = await AuthService.login("User2", "user2")
+            const login = await authService.login("User2", "user2")
 
             expect(login.id).toBeDefined();
             expect(login.username).toBe("User2");
