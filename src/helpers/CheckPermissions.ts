@@ -5,8 +5,6 @@ import MessageHelper from "./MessageHelper";
 
 function checkPermissions(permissionsNeeded: Permission[]) {
   return async function (req: Request, res: Response, next: NextFunction) {
-    if(process.env.NODE_ENV === 'test') return next();
-    
     // @ts-ignore
     const user = req.user;
 
