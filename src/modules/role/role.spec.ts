@@ -1,12 +1,18 @@
 import request from 'supertest';
+import { sign } from '../../helpers/JWTHelper';
 import app from '../../server';
 
 describe('Role', () => {
     let roleId: number;
+    let token: string;
+    beforeAll(async () => {
+        token = sign(1);
+    });
 
     it('should create a new role', async () => {
         const response = await request(app)
             .post('/role')
+            .set('x-access-token', token)
             .send({
                 name: "TEST_ROLE",
                 permission: [
@@ -25,6 +31,7 @@ describe('Role', () => {
     it('should not create a role with same name', async () => {
         const response = await request(app)
             .post('/role')
+            .set('x-access-token', token)
             .send({
                 name: "TEST_ROLE",
                 permission: [
@@ -41,6 +48,7 @@ describe('Role', () => {
     it('should update a roles name', async () => {
         const response = await request(app)
             .put(`/role/${roleId}`)
+            .set('x-access-token', token)
             .send({
                 name: "TEST_ROLE_UPDATED"
             });
@@ -51,7 +59,8 @@ describe('Role', () => {
 
     it('should delete a role', async () => {
         const response = await request(app)
-            .delete(`/role/${roleId}`);
+            .delete(`/role/${roleId}`)
+            .set('x-access-token', token);
 
         expect(response.status).toBe(200);
         expect(response.body.data).toHaveProperty('id');

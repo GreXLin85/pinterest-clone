@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../../server';
 import { faker } from '@faker-js/faker';
+import { sign } from '../../helpers/JWTHelper';
 
 
 describe('User', () => {
@@ -9,10 +10,14 @@ describe('User', () => {
     const userPassword = faker.internet.password();
     const userNewPassword = faker.internet.password();
     let userId: number;
-
+    let token: string;
+    beforeAll(async () => {
+        token = sign(1);
+    });
     it('should create a new user', async () => {
         const response = await request(app)
             .post('/user')
+            .set('x-access-token', token)
             .send({
                 username: userUsername,
                 password: userPassword,
@@ -28,6 +33,7 @@ describe('User', () => {
     it('should not create a new user with same username', async () => {
         const response = await request(app)
             .post('/user')
+            .set('x-access-token', token)
             .send({
                 username: userUsername,
                 password: userPassword,
@@ -39,21 +45,28 @@ describe('User', () => {
     });
 
     it('should get a user', async () => {
-        const response = await request(app).get(`/user/${userId}`);
+        const response = await request(app)
+            .get(`/user/${userId}`)
+            .set('x-access-token', token);
 
         expect(response.status).toBe(200);
         expect(response.body.data).toHaveProperty('id');
     });
 
     it('should not get a user', async () => {
-        const response = await request(app).get('/user/2000');
+        const response = await request(app)
+            .get('/user/2000')
+            .set('x-access-token', token)
+
 
         expect(response.status).toBe(400);
         expect(response.body.data).not.toHaveProperty('id');
     });
 
     it('should get all users', async () => {
-        const response = await request(app).get('/users');
+        const response = await request(app)
+            .get('/users')
+            .set('x-access-token', token)
 
         expect(response.status).toBe(200);
         expect(response.body.data[0]).toHaveProperty('id');
@@ -62,6 +75,7 @@ describe('User', () => {
     it('should update a user', async () => {
         const response = await request(app)
             .put(`/user/${userId}`)
+            .set('x-access-token', token)
             .send({
                 username: userNewUsername,
             });
@@ -73,6 +87,7 @@ describe('User', () => {
     it('should not update a user', async () => {
         const response = await request(app)
             .put('/user/2000')
+            .set('x-access-token', token)
             .send({
                 username: 'User1',
                 password: 'user1',
@@ -86,6 +101,7 @@ describe('User', () => {
     it('should update a user password', async () => {
         const response = await request(app)
             .patch(`/user/${userId}`)
+            .set('x-access-token', token)
             .send({
                 oldPassword: userPassword,
                 newPassword: userNewPassword,
@@ -98,6 +114,7 @@ describe('User', () => {
     it('should not update a user password', async () => {
         const response = await request(app)
             .patch(`/user/${userId}`)
+            .set('x-access-token', token)
             .send({
                 oldPassword: userPassword,
                 newPassword: userNewPassword,
@@ -108,14 +125,18 @@ describe('User', () => {
     });
 
     it('should delete a user', async () => {
-        const response = await request(app).delete(`/user/${userId}`);
+        const response = await request(app)
+        .delete(`/user/${userId}`)
+        .set('x-access-token', token);
 
         expect(response.status).toBe(200);
         expect(response.body.data).toHaveProperty('id');
     });
 
     it('should not delete a user', async () => {
-        const response = await request(app).delete('/user/2000');
+        const response = await request(app)
+        .delete('/user/2000')
+        .set('x-access-token', token);
 
         expect(response.status).toBe(400);
         expect(response.body.data).toBe('User not found');

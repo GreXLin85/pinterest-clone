@@ -7,6 +7,8 @@ import { UserService } from '../user/services';
 describe('Auth', () => {
     const userUsername = faker.internet.userName();
     const userPassword = faker.internet.password();
+    const userService = new UserService()
+
 
     it('should create a new user', async () => {
         const response = await request(app)
@@ -49,7 +51,7 @@ describe('Auth', () => {
             .post('/auth/login')
             .send({
                 username: userUsername,
-                password: `${userPassword  }1`,
+                password: `${userPassword}1`,
             });
 
         expect(response.status).toBe(400);
@@ -57,7 +59,7 @@ describe('Auth', () => {
     });
 
     afterAll(async () => {
-        const userId = (await UserService.getUserByUsername(userUsername))?.id as number
-        await UserService.deleteUser(userId)
+        const userId = (await userService.getUserByUsername(userUsername))?.id as number
+        await userService.deleteUser(userId)
     })
 });
