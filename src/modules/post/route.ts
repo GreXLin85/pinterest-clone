@@ -7,7 +7,7 @@ export class PostRoute {
     public routes(app: Application): void {
         app.route('/post/:id')
             .get(new PostController().getPost)
-            .patch(verifyToken, checkPermissions(["UPDATE_POST"]), new PostController().updatePost)
+            .put(verifyToken, checkPermissions(["UPDATE_POST"]), new PostController().updatePost)
             .delete(verifyToken, checkPermissions(["DELETE_POST"]), new PostController().deletePost);
 
         app.route('/posts')

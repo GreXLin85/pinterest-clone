@@ -66,7 +66,7 @@ describe('Post', () => {
 
     it('should update a post', async () => {
         const response = await request(app)
-            .patch(`/post/${postId}`)
+            .put(`/post/${postId}`)
             .set('x-access-token', token)
             .send({
                 title: faker.lorem.sentence(),
