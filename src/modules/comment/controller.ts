@@ -3,18 +3,23 @@ import MessageHelper from "../../helpers/MessageHelper";
 import { CommentService } from "./services";
 
 export class CommentController {
-    private commentService = new CommentService()
+    private commentService: CommentService;
 
-    async addCommentToPost(req: Request, res: Response) {
+    constructor() {
+        this.commentService = new CommentService();
+    }
+
+    addCommentToPost = async (req: Request, res: Response) => {
         const { postId, userId, content } = req.body;
-        const commentAdded = await this.commentService.addCommentToPost(postId, userId, content);
+        const commentAdded = await this.commentService.addCommentToPost(Number(postId), Number(userId), content);
+
         if (commentAdded) {
             return MessageHelper(commentAdded, false, res);
         }
         return MessageHelper("Something happened while adding comment", true, res);
     }
 
-    async getCommentById(req: Request, res: Response) {
+    getCommentById = async (req: Request, res: Response) => {
         const { id } = req.params;
         const commentRead = await this.commentService.getCommentById(Number(id));
         if (commentRead) {
@@ -23,7 +28,7 @@ export class CommentController {
         return MessageHelper("Comment not found", true, res);
     }
 
-    async getCommentsByPostId(req: Request, res: Response) {
+    getCommentsByPostId = async (req: Request, res: Response) => {
         const { id } = req.params;
         const commentsRead = await this.commentService.getCommentsByPostId(Number(id));
         if (commentsRead) {
@@ -32,7 +37,7 @@ export class CommentController {
         return MessageHelper("Comments not found", true, res);
     }
 
-    async editComment(req: Request, res: Response) {
+    editComment = async (req: Request, res: Response) => {
         const { id } = req.params;
         const { content } = req.body;
         const commentEdited = await this.commentService.editComment(Number(id), content);
@@ -42,7 +47,7 @@ export class CommentController {
         return MessageHelper("Something happened while editing comment", true, res);
     }
 
-    async removeCommentFromPost(req: Request, res: Response) {
+    removeCommentFromPost = async (req: Request, res: Response) => {
         const { id } = req.params;
         const commentRemoved = await this.commentService.removeCommentFromPost(Number(id));
         if (commentRemoved) {

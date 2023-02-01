@@ -1,8 +1,7 @@
 import prisma from "../../interfaces/Prisma";
 
-
 export class CommentService {
-    async addCommentToPost(postId: number, authorId: number, content: string) {
+    addCommentToPost = async (postId: number, authorId: number, content: string) => {
         return await prisma.comment.create({
             data: {
                 content,
@@ -20,7 +19,7 @@ export class CommentService {
         });
     }
 
-    async getCommentById(id: number) {
+    getCommentById = async (id: number) => {
         return await prisma.comment.findUnique({
             where: {
                 id,
@@ -28,7 +27,7 @@ export class CommentService {
         });
     }
 
-    async getCommentsByPostId(postId: number) {
+    getCommentsByPostId = async (postId: number) => {
         return await prisma.post.findUnique({
             where: {
                 id: postId,
@@ -37,7 +36,7 @@ export class CommentService {
     }
 
 
-    async editComment(id: number, content: string) {
+    editComment = async (id: number, content: string) => {
         return await prisma.comment.update({
             where: {
                 id,
@@ -48,7 +47,7 @@ export class CommentService {
         });
     }
 
-    async removeCommentFromPost(id: number) {
+    removeCommentFromPost = async (id: number) => {
         return await prisma.comment.delete({
             where: {
                 id,
