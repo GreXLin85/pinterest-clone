@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
+import prisma from "../interfaces/Prisma";
 import { verify } from "./JWTHelper";
 import MessageHelper from "./MessageHelper";
 
-const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers["x-access-token"] as string;
 
   if (!token) {
@@ -10,10 +11,22 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   }
   try {
     const decoded = verify(token);
-    // @ts-ignore
-    req.user = {
+
+    const user = await prisma.user.findUnique({
+      where: {
         id: decoded.id,
-    };
+      },
+      include: {
+        role: true,
+      },
+    })
+
+    if (!user) {
+      return MessageHelper("Unauthorized!", true, res);
+    }
+
+    // @ts-ignore
+    req.user = user;
   } catch (err) {
     return MessageHelper("Unauthorized!", true, res);
   }
