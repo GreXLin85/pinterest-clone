@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import isUserOwn from "../../helpers/isUserOwn";
 import MessageHelper from "../../helpers/MessageHelper";
 import { UserService } from "./services";
 
@@ -12,6 +13,10 @@ export class UserController {
 
             if (!user) {
                 return MessageHelper("User not found", true, res);
+            }
+
+            if(!isUserOwn(req.user.id, req.user.role.name, Number(id))) {
+                return MessageHelper("You don't have permission to access this resource", true, res);
             }
 
             // We don't want to send the password to the client
@@ -48,6 +53,10 @@ export class UserController {
             // Request query params are always strings by default so we need to cast them to numbers
             const { take, skip } = req.query as unknown as { take: number, skip: number };
 
+            if (req.user.role.name !== "ADMIN") {
+                return MessageHelper("You don't have permission to access this resource", true, res);
+            }
+
             const users = await this.userService.getUsers(skip, take);
 
             // We don't want to send the password to the client
@@ -76,12 +85,25 @@ export class UserController {
         try {
             const { id } = req.params as { id: string };
             const { username, password, roleId } = req.body as Partial<{ username: string, password: string, roleId: number }>;
-            const user = await this.userService.updateUser(Number(id), {
+            
+            const user = await this.userService.getUserById(Number(id));
+
+            if (!user) {
+                return MessageHelper("User not found", true, res);
+            }
+
+            if(!isUserOwn(req.user.id, req.user.role.name, Number(id))) {
+                return MessageHelper("You don't have permission to access this resource", true, res);
+            }
+            
+            req
+
+            const userUpdated = await this.userService.updateUser(Number(id), {
                 username,
                 password,
                 roleId
             });
-            return MessageHelper(user, false, res);
+            return MessageHelper(userUpdated, false, res);
         } catch (error: any) {
             return MessageHelper(error.message, true, res);
         }
@@ -91,6 +113,11 @@ export class UserController {
         try {
             const { id } = req.params as { id: string };
             const { oldPassword, newPassword } = req.body as { oldPassword: string, newPassword: string };
+            
+            if (!isUserOwn(req.user.id, req.user.role.name, Number(id))) {
+                return MessageHelper("You don't have permission to access this resource", true, res);
+            }
+            
             const user = await this.userService.getUserById(Number(id));
 
             if (!user) {
@@ -115,8 +142,19 @@ export class UserController {
     deleteUser = async (req: Request, res: Response) => {
         try {
             const { id } = req.params as { id: string };
-            const user = await this.userService.deleteUser(Number(id));
-            return MessageHelper(user, false, res);
+
+            const user = await this.userService.getUserById(Number(id));
+
+            if (!user) {
+                return MessageHelper("User not found", true, res);
+            }
+
+            if (!isUserOwn(req.user.id, req.user.role.name, Number(id))) {
+                return MessageHelper("You don't have permission to access this resource", true, res);
+            }
+
+            const userDeleted = await this.userService.deleteUser(Number(id));
+            return MessageHelper(userDeleted, false, res);
         } catch (error: any) {
             return MessageHelper(error.message, true, res);
         }
