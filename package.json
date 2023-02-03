@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "start": "ts-node src/server.ts",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "start": "ts-node --files src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only --files src/server.ts",
     "test": "jest",
     "build": "tsc",
     "migrate": "prisma migrate dev --name init",
